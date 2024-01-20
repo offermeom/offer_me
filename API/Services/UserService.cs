@@ -2,8 +2,6 @@ using API.Data;
 using API.Models;
 using API.Interfaces;
 using API.Exceptions;
-using Microsoft.Extensions.Logging;
-
 namespace API.Services;
 public class UserService : IUserService
 {

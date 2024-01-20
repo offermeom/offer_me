@@ -4,21 +4,14 @@ using API.Services;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-builder.Services.AddCors(options => options.AddDefaultPolicy(config => config.WithOrigins("http://localhost:port").AllowAnyHeader().AllowAnyMethod())); // ** Configure CORS Policy
-builder.Services.AddDbContext<OMContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));// ** Configure OMContext with SQL Server
 builder.Services.AddControllers();
-builder.Services.AddScoped<IUserService, UserService>(); // ** Register UserService Implementation
+// ** Configure CORS Policy & Configure OMContext with SQL Server & Register UserService Implementation
+builder.Services.AddCors(options => options.AddDefaultPolicy(config => config.WithOrigins("http://localhost:port").AllowAnyHeader().AllowAnyMethod())).AddDbContext<OMContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))).AddScoped<IUserService, UserService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer().AddSwaggerGen();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-app.UseCors();
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment()) app.UseSwagger().UseSwaggerUI();
+app.UseCors().UseHttpsRedirection().UseAuthorization();
 app.MapControllers();
 app.Run();

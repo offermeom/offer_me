@@ -3,10 +3,7 @@ using API.Models;
 using API.Interfaces;
 using API.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using API.Exceptions;
-
 namespace API.Tests;
 // TODO: Test Coverage
 [TestFixture]
