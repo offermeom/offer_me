@@ -1,59 +1,47 @@
-/* using Moq;
+using Moq;
 using API.Services;
 using API.Data;
-using API.Exceptions;
+using API.Models;
+using Microsoft.EntityFrameworkCore;
 namespace API.Tests;
 // TODO: Test Coverage
 [TestFixture]
-public class UserControllerTests
+public class UserServicesTests
 {
-    private UserService _UserService;
+    private const string DBName = "Offerme";
+    private UserService? _UserService;
     private Mock<ILogger<UserService>> _MockIlogger;
-    private readonly Mock<OMContext> _MockOMContext;
+    private OMContext _MockOMContext;
+    private DbContextOptions<OMContext> _DbContextOptionsBuilder;
     [SetUp]
     public void Setup()
     {
-        _MockIlogger = new Mock<ILogger<UserController>>();
-        _MockOMContext = new Mock<OMContext>();
-        _UserService = new UserService>(_MockIlogger.Object, _MockOMContext.Object);
+        _MockIlogger = new Mock<ILogger<UserService>>();
+        _DbContextOptionsBuilder = new DbContextOptionsBuilder<OMContext>().UseInMemoryDatabase(databaseName: DBName).Options;
+        _MockOMContext = new OMContext(_DbContextOptionsBuilder);
+        _MockOMContext.Users.Add(new User
+        {
+            Name = "Prasad",
+            Number = "8428558275",
+            Mail = "pmpsrnp@outlook.com",
+            Password = "sprasadr",
+            GSTIN = "0A1B2C3D4F5G6H7I"
+        });
+        _MockOMContext.SaveChanges();
     }
     [TearDown]
     public void Tear()
     {
         _UserService = null;
         _MockIlogger.Reset();
-        _MockOMContext.Reset();
+        _DbContextOptionsBuilder.Freeze();
+        _MockOMContext.Dispose();
     }
     [Test]
     public void GetExceptionTest()
     {
-        _MockOMContext.Setup(c => c.)
-    } */
-/*    public void SignIn406()
-    {
-        _MockIUserService.Setup(u => u.Get( It.IsAny<string>(),  It.IsAny<string>())).Throws(new InvalidUserException());
-        var result = _UserController!.SignIn(  It.IsAny<string>(),  It.IsAny<string>()) as StatusCodeResult;
-        Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status406NotAcceptable));
+        _UserService = new UserService(_MockIlogger.Object, _MockOMContext);
+        var result = _UserService.Get("8428558275", "sprasadr");
+        Assert.That(result, Is.Not.Null);
     }
-    [Test]
-    public void SignIn202()
-    {
-        _MockIUserService.Setup(u => u.Get( It.IsAny<string>(), It.IsAny<string>())).Returns(new User());
-        var result = _UserController!.SignIn( It.IsAny<string>(), It.IsAny<string>()) as AcceptedResult;
-        Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status202Accepted));
-    }
-    [Test]
-    public async Task SignUp403()
-    {
-        _MockIUserService.Setup(u => u.Post(It.IsAny<User>())).ThrowsAsync(new DuplicateUserException("Duplicate User"));
-        var result = await _UserController!.SignUp(It.IsAny<User>()) as StatusCodeResult;
-        Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status403Forbidden));
-    }
-    [Test]
-    public async Task SignUp201()
-    {
-        _MockIUserService.Setup(u => u.Post(It.IsAny<User>()));
-        var result = await _UserController!.SignUp(It.IsAny<User>()) as StatusCodeResult;
-        Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status201Created));
-    } */
 }

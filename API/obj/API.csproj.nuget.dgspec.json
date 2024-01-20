@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nprasads\\Documents\\Git\\offer_me\\API\\API.csproj": {}
+    "C:\\Users\\EX_NPRASAD\\source\\repos\\offermeom\\offer_me\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nprasads\\Documents\\Git\\offer_me\\API\\API.csproj": {
+    "C:\\Users\\EX_NPRASAD\\source\\repos\\offermeom\\offer_me\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nprasads\\Documents\\Git\\offer_me\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\EX_NPRASAD\\source\\repos\\offermeom\\offer_me\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\nprasads\\Documents\\Git\\offer_me\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\nprasads\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nprasads\\Documents\\Git\\offer_me\\API\\obj\\",
+        "projectPath": "C:\\Users\\EX_NPRASAD\\source\\repos\\offermeom\\offer_me\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\EX_NPRASAD\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\EX_NPRASAD\\source\\repos\\offermeom\\offer_me\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nprasads\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\EX_NPRASAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,9 +40,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Cors": {
+            "Microsoft.AspNet.WebApi.Cors": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[5.3.0, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
@@ -49,6 +51,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[8.0.1, )"
             },
@@ -86,7 +92,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
