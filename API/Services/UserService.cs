@@ -22,7 +22,7 @@ public class UserService : IUserService
         }
         catch(Exception e)
         {
-            _logger.LogError("UserServie : Get Action", e.Message);
+            _logger.LogError(string.Concat("UserServie : Get Action : ", e.Message));
             throw;
         }
     }
@@ -36,7 +36,7 @@ public class UserService : IUserService
         }
         catch(Exception e)
         {
-            _logger.LogError("UserServie : Get Action", e.Message);
+            _logger.LogError(string.Concat("UserServie : Get Action : ", e.Message));
             throw;
         }
     }
@@ -58,7 +58,7 @@ public class UserService : IUserService
         }
         catch(Exception e)
         {
-            _logger.LogError("UserService : Post Action", e.Message);
+            _logger.LogError(string.Concat("UserService : Post Action : ", e.Message));
             throw;
         }
     }

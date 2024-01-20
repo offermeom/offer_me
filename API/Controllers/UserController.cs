@@ -24,7 +24,7 @@ public class UserController : ControllerBase
         }
         catch(Exception e)
         {
-            _logger.LogError("UserController : SignIn Action", e.Message);
+            _logger.LogError(string.Concat("UserController : SignIn Action : ", e.Message));
             return StatusCode(StatusCodes.Status406NotAcceptable);
         }
     }
@@ -39,7 +39,7 @@ public class UserController : ControllerBase
         }
         catch(Exception e)
         {
-            _logger.LogError("UserController : SignUp Action", e.Message);
+            _logger.LogError(string.Concat("UserController : SignUp Action : ", e.Message));
             return StatusCode(StatusCodes.Status403Forbidden);
         }
     }
