@@ -1,6 +1,4 @@
-﻿using System;
-using API.Models;
-using System.Collections.Generic;
+﻿using API.Models;
 using Microsoft.EntityFrameworkCore;
 namespace API.Data;
 public partial class OMContext : DbContext
@@ -8,7 +6,8 @@ public partial class OMContext : DbContext
     public OMContext() {}
     public OMContext(DbContextOptions<OMContext> options) : base(options) {}
     public virtual DbSet<User> Users { get; set; }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Default"));
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Default"));
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Offerme;Trusted_Connection=True;MultipleActiveResultSets=True;Integrated Security=True;TrustServerCertificate=True");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>(entity =>
