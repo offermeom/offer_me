@@ -3,23 +3,24 @@ using API.Services;
 using API.Data;
 using API.Models;
 using Microsoft.EntityFrameworkCore;
+using API.Exceptions;
 namespace API.Tests;
 // TODO: Test Coverage
 [TestFixture]
-public class UserServicesTests
+static class UserServicesTests
 {
     private const string DBName = "Offerme";
-    private UserService? _UserService;
-    private Mock<ILogger<UserService>> _MockIlogger;
-    private OMContext _MockOMContext;
-    private DbContextOptions<OMContext> _DbContextOptionsBuilder;
+    static UserService? _UserService;
+    static Mock<ILogger<UserService>> _MockIlogger;
+    static OMContext _OMContext;
+    static DbContextOptions<OMContext> _DbContextOptionsBuilder;
     [SetUp]
-    public void Setup()
+    public static void Setup()
     {
         _MockIlogger = new Mock<ILogger<UserService>>();
         _DbContextOptionsBuilder = new DbContextOptionsBuilder<OMContext>().UseInMemoryDatabase(databaseName: DBName).Options;
-        _MockOMContext = new OMContext(_DbContextOptionsBuilder);
-        _MockOMContext.Users.Add(new User
+        _OMContext = new OMContext(_DbContextOptionsBuilder);
+        _OMContext.Users.Add(new User
         {
             Name = "Prasad",
             Number = "8428558275",
@@ -27,21 +28,52 @@ public class UserServicesTests
             Password = "sprasadr",
             GSTIN = "0A1B2C3D4F5G6H7I"
         });
-        _MockOMContext.SaveChanges();
+        _OMContext.SaveChanges();
+        _UserService = new UserService(_MockIlogger.Object, _OMContext);
     }
     [TearDown]
-    public void Tear()
+    public static void Tear()
     {
         _UserService = null;
         _MockIlogger.Reset();
         _DbContextOptionsBuilder.Freeze();
-        _MockOMContext.Dispose();
+        _OMContext.Dispose();
     }
     [Test]
-    public void GetExceptionTest()
+    public static void GetExceptionTest()
     {
-        _UserService = new UserService(_MockIlogger.Object, _MockOMContext);
-        var result = _UserService.Get("8428558275", "sprasadr");
+        Assert.Throws<InvalidUserException>(() => _UserService!.Get("9790687606", "prasad"));
+    }
+    [Test]
+    public static void GetUserTest()
+    {
+        var result = _UserService!.Get("8428558275", "sprasadr");
         Assert.That(result, Is.Not.Null);
+    }
+    [Test]
+    public static void PostExceptionTest()
+    {
+        User user = new()
+        {
+            Name = "Prasad",
+            Number = "8428558275",
+            Mail = "pmpsrnp@outlook.com",
+            Password = "sprasadr",
+            GSTIN = "0A1B2C3D4F5G6H7I"
+        };
+        Assert.ThrowsAsync<DuplicateUserException>(() => _UserService!.Post(user));
+    }
+    [Test]
+    public static void PostUserTest()
+    {
+        User user = new()
+        {
+            Name = "Naren",
+            Number = "9790687606",
+            Mail = "naren000000000@gmail.com",
+            Password = "sprasadr",
+            GSTIN = "3S4T5U6V7W8X9Y0Z"
+        };
+        Assert.DoesNotThrowAsync(() => _UserService!.Post(user));
     }
 }
