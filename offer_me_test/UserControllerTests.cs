@@ -1,9 +1,11 @@
-using Moq;
-using API.Models;
-using API.Interfaces;
 using API.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using API.Exceptions;
+using API.Interfaces;
+using API.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 namespace API.Tests;
 // TODO: Test Coverage
 [TestFixture]
@@ -29,15 +31,15 @@ static class UserControllerTests
     [Test]
     public static void SignIn406()
     {
-        _MockIUserService.Setup(u => u.Get( It.IsAny<string>(),  It.IsAny<string>())).Throws(new InvalidUserException());
-        var result = _UserController!.SignIn(  It.IsAny<string>(),  It.IsAny<string>()) as StatusCodeResult;
+        _MockIUserService.Setup(u => u.Get(It.IsAny<string>(), It.IsAny<string>())).Throws(new InvalidUserException());
+        var result = _UserController!.SignIn(It.IsAny<string>(), It.IsAny<string>()) as StatusCodeResult;
         Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status406NotAcceptable));
     }
     [Test]
     public static void SignIn202()
     {
-        _MockIUserService.Setup(u => u.Get( It.IsAny<string>(), It.IsAny<string>())).Returns(new User());
-        var result = _UserController!.SignIn( It.IsAny<string>(), It.IsAny<string>()) as AcceptedResult;
+        _MockIUserService.Setup(u => u.Get(It.IsAny<string>(), It.IsAny<string>())).Returns(new User());
+        var result = _UserController!.SignIn(It.IsAny<string>(), It.IsAny<string>()) as AcceptedResult;
         Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status202Accepted));
     }
     [Test]

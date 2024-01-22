@@ -1,9 +1,10 @@
-using Moq;
-using API.Services;
 using API.Data;
-using API.Models;
-using Microsoft.EntityFrameworkCore;
 using API.Exceptions;
+using API.Models;
+using API.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 namespace API.Tests;
 // TODO: Test Coverage
 [TestFixture]
