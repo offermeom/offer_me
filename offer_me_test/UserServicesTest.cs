@@ -1,12 +1,11 @@
+using Moq;
 using API.Data;
-using API.Exceptions;
 using API.Models;
 using API.Services;
-using Microsoft.EntityFrameworkCore;
+using API.Exceptions;
 using Microsoft.Extensions.Logging;
-using Moq;
+using Microsoft.EntityFrameworkCore;
 namespace API.Tests;
-// TODO: Test Coverage
 [TestFixture]
 static class UserServicesTests
 {
@@ -49,7 +48,12 @@ static class UserServicesTests
     public static void GetUserTest()
     {
         var result = _UserService!.Get("8428558275", "sprasadr");
-        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<User>());
+            Assert.That(result.ID, Is.EqualTo(1));
+        });
     }
     [Test]
     public static void PostExceptionTest()
@@ -62,7 +66,14 @@ static class UserServicesTests
             Password = "sprasadr",
             GSTIN = "0A1B2C3D4F5G6H7I"
         };
-        Assert.ThrowsAsync<DuplicateUserException>(() => _UserService!.Post(user));
+        var result = _UserService!.Post(user);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Exception!.InnerException!.Source, Is.EqualTo("API"));
+            Assert.That(result.Exception.InnerException.Message, Is.EqualTo("Duplicate User"));
+            Assert.That(result.Exception.Message, Is.EqualTo("One or more errors occurred. (Duplicate User)"));
+            Assert.ThrowsAsync<DuplicateUserException>(() => result);
+        });
     }
     [Test]
     public static void PostUserTest()
@@ -75,6 +86,12 @@ static class UserServicesTests
             Password = "sprasadr",
             GSTIN = "3S4T5U6V7W8X9Y0Z"
         };
-        Assert.DoesNotThrowAsync(() => _UserService!.Post(user));
+        var result = _UserService!.Post(user);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Exception,Is.Null);
+            Assert.DoesNotThrowAsync(() => result);
+        });
     }
 }
