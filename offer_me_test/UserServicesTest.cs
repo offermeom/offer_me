@@ -6,7 +6,8 @@ using API.Exceptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 namespace API.Tests;
-[TestFixture]
+[Author("Prasad", "narendra.prasadsr@nbfc.com")]
+[TestFixture, Description("Test class for user service")]
 static class UserServicesTests
 {
     private const string DBName = "Offerme";
@@ -39,12 +40,12 @@ static class UserServicesTests
         _DbContextOptionsBuilder.Freeze();
         _OMContext.Dispose();
     }
-    [Test]
+    [Test, Description("Test method to throw Invalid User Exception")]
     public static void GetExceptionTest()
     {
         Assert.Throws<InvalidUserException>(() => _UserService!.Get("9790687606", "prasad"));
     }
-    [Test]
+    [Test, Description("Test method to get an user")]
     public static void GetUserTest()
     {
         var result = _UserService!.Get("8428558275", "sprasadr");
@@ -55,7 +56,7 @@ static class UserServicesTests
             Assert.That(result.ID, Is.EqualTo(1));
         });
     }
-    [Test]
+    [Test, Description("Test method to throw Duplicate User Exception")]
     public static void PostExceptionTest()
     {
         User user = new()
@@ -75,7 +76,7 @@ static class UserServicesTests
             Assert.ThrowsAsync<DuplicateUserException>(() => result);
         });
     }
-    [Test]
+    [Test, Description("Test method to add an user to In Memory DB")]
     public static void PostUserTest()
     {
         User user = new()

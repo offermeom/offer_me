@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 namespace API.Tests;
-[TestFixture]
+[Author("Prasad", "narendra.prasadsr@nbfc.com")]
+[TestFixture, Description("Test methods for user controller")]
 static class UserControllerTests
 {
     static UserController? _UserController;
@@ -27,7 +28,7 @@ static class UserControllerTests
         _MockIlogger.Reset();
         _MockIUserService.Reset();
     }
-    [Test]
+    [Test, Description("Test method to get 406 Status Code")]
     public static void SignIn406()
     {
         _MockIUserService.Setup(u => u.Get(It.IsAny<string>(), It.IsAny<string>())).Throws(new InvalidUserException());
@@ -38,7 +39,7 @@ static class UserControllerTests
             Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status406NotAcceptable));
         });
     }
-    [Test]
+    [Test, Description("Test method to get 202 Status Code")]
     public static void SignIn202()
     {
         _MockIUserService.Setup(u => u.Get(It.IsAny<string>(), It.IsAny<string>())).Returns(new User());
@@ -49,7 +50,7 @@ static class UserControllerTests
             Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status202Accepted));
         });
     }
-    [Test]
+    [Test, Description("Test method to get 403 Status Code")]
     public static async Task SignUp403()
     {
         _MockIUserService.Setup(u => u.Post(It.IsAny<User>())).ThrowsAsync(new DuplicateUserException("Duplicate User"));
@@ -60,7 +61,7 @@ static class UserControllerTests
             Assert.That(result!.StatusCode, Is.EqualTo(StatusCodes.Status403Forbidden));
         });
     }
-    [Test]
+    [Test, Description("Test method to get 201 Status Code")]
     public static async Task SignUp201()
     {
         _MockIUserService.Setup(u => u.Post(It.IsAny<User>()));
